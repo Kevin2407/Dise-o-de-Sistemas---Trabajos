@@ -15,24 +15,16 @@ class Vista extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      marca: '',
-      modelo: '',
-      version: '',
-      color: '',
+      marca: null,
+      modelo: null,
+      version: null,
+      color: null,
       vehiculos: [],
       avance: 0,
     };
   }
 
-  handleVehiculoChange = (e) => {
-    const { name, value } = e.target;
-    console.log(name)
-    this.setState((prevState) => ({
-        ...prevState,
-        [name]: value,
-      avance: name === "marca" ? 1 : name === "modelo" ? 2 : name === "version" ? 3 : name === "color" ? 4 : name === "" ? 0 : 0 ,
-    }));
-  };
+
 
   marcas = ['Toyota', 'Ford', 'Chevrolet']; // Ejemplo de marcas de vehículos
   modelos = ['Corolla', 'Focus', 'Cruze']; // Ejemplo de modelos de vehículos
@@ -43,48 +35,215 @@ class Vista extends Component {
 
   render() {
     const { marca, modelo, version, color, avance } = this.state;
-    const { realizarReserva } = this.props;
-    const controller = new AgenciaController();
     console.log(this.state)
     const cliente1 = new Cliente(43710873, 'Martín', 'Kevin', 'ayacucho 685', 'kevmartin2001@gmail.com', 3816791746)
     const reserva1 = new Reserva(cliente1);
-    console.log(avance)
+    const controller = new AgenciaController(reserva1);
+
+
+
+    // creacion de instancias de objetos
+
+
+
+    // Creación de instancias de colores
+    const Blanco = new Color('Blanco', 3);
+    const Negro = new Color('Negro', 2);
+    const Rojo = new Color('Rojo', 0);
+    const Azul = new Color('Azul', 2);
+    const Gris = new Color('Gris', 5);
+    const Verde = new Color('Verde', 10);
+
+    // Creación de instancias de versiones y asignación de colores
+    const SR = new Version('SR');
+    SR.agregarColor(Blanco);
+    SR.agregarColor(Negro);
+
+    const SRV = new Version('SRV');
+    SRV.agregarColor(Rojo);
+    SRV.agregarColor(Negro);
+
+    const SE = new Version('SE');
+    SE.agregarColor(Azul);
+    SE.agregarColor(Gris);
+
+    const XLE = new Version('XLE');
+    XLE.agregarColor(Verde);
+    XLE.agregarColor(Negro);
+
+    const Freedom = new Version('Freedom');
+    Freedom.agregarColor(Blanco);
+    Freedom.agregarColor(Rojo);
+
+    const Attractive = new Version('Attractive');
+    Attractive.agregarColor(Negro);
+    Attractive.agregarColor(Azul);
+
+    const GT = new Version('GT');
+    GT.agregarColor(Rojo);
+    GT.agregarColor(Blanco);
+
+    const S = new Version('S');
+    S.agregarColor(Gris);
+    S.agregarColor(Verde);
+
+    const ZL1 = new Version('ZL1');
+    ZL1.agregarColor(Negro);
+    ZL1.agregarColor(Rojo);
+
+    const LT = new Version('LT');
+    LT.agregarColor(Azul);
+    LT.agregarColor(Blanco);
+
+
+
+    //modelos
+    const Hilux = new Modelo('Hilux');
+    Hilux.agregarVersion(SR);
+    Hilux.agregarVersion(SRV);
+
+    const Corolla = new Modelo('Corolla');
+    Corolla.agregarVersion(SE);
+    Corolla.agregarVersion(XLE);
+
+    const Toro = new Modelo('Toro');
+    Toro.agregarVersion(Freedom);
+
+    const Punto = new Modelo('Punto');
+    Punto.agregarVersion(Attractive);
+
+    const Mustang = new Modelo('Mustang');
+    Mustang.agregarVersion(GT);
+
+    const Fiesta = new Modelo('Fiesta');
+    Fiesta.agregarVersion(S);
+
+    const Camaro = new Modelo('Camaro');
+    Camaro.agregarVersion(ZL1);
+
+    const Malibu = new Modelo('Malibu');
+    Malibu.agregarVersion(LT);
+
+
+    //Marcas
+    const Toyota = new Marca('Toyota');
+    Toyota.agregarModelo(Hilux);
+    Toyota.agregarModelo(Corolla);
+
+    const Fiat = new Marca('Fiat');
+    Fiat.agregarModelo(Toro);
+    Fiat.agregarModelo(Punto);
+
+    const Ford = new Marca('Ford');
+    Ford.agregarModelo(Mustang);
+    Ford.agregarModelo(Fiesta);
+
+    const Chevrolet = new Marca('Chevrolet');
+    Chevrolet.agregarModelo(Camaro);
+    Chevrolet.agregarModelo(Malibu);
+
+
+    // reserva
+    reserva1.agregarMarca(Toyota);
+    reserva1.agregarMarca(Fiat);
+    reserva1.agregarMarca(Ford);
+    reserva1.agregarMarca(Chevrolet);
+
+
+
+
+
+
+
+
+
+
+    const handleVehiculoChange = (e) => {
+      const { name, value } = e.target;
+      let updatedState;
+
+      switch (name) {
+        case "marca":
+          updatedState = {
+            ...this.state,
+            [name]: reserva1.marcas.find(_marca => _marca.nombre === value),
+            avance: 1,
+          };
+          break;
+        case "modelo":
+          updatedState = {
+            ...this.state,
+            [name]: marca.modelos.find(_modelo => _modelo.nombre === value),
+            avance: 2,
+          };
+          break;
+        case "version":
+          updatedState = {
+            ...this.state,
+            [name]: modelo.versiones.find(_version => _version.nombre === value),
+            avance: 3,
+          };
+          break;
+        case "color":
+          updatedState = {
+            ...this.state,
+            [name]: version.colores.find(_color => _color.nombre === value),
+            avance: 4,
+          };
+          break;
+        default:
+          updatedState = {
+            ...this.state,
+            [name]: value,
+            avance: 0,
+          };
+          break;
+      }
+
+      this.setState(updatedState);
+    };
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+
+    }
+
 
 
     return (
       <>
-        <form onSubmit={this.handleSubmit} className='flex flex-col gap-y-5'>
+        <form onSubmit={handleSubmit} className='flex flex-col gap-y-5'>
           <label className=' text-black font-bold ' htmlFor="marca">Marca:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca} onChange={this.handleVehiculoChange} required >
-            {  avance<1 && <option value="">Seleccionar Marca</option>  }
-            {this.marcas.map((_marca) => (
-              <option key={_marca} value={_marca}>{_marca}</option>
+          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca?.nombre} onChange={handleVehiculoChange} required >
+            {avance < 1 && <option value="">Seleccionar Marca</option>}
+            {reserva1.marcas.map((_marca) => (
+              <option key={_marca.nombre} value={_marca.nombre}>{_marca.nombre}</option>
             ))}
           </select>
           <label className=' text-black font-bold' htmlFor="modelo">Modelo:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="modelo" name="modelo" value={modelo} onChange={this.handleVehiculoChange} required disabled={!(avance>0)} >
+          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="modelo" name="modelo" value={modelo?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 0)} >
             {avance < 2 && <option value="">Seleccionar Modelo</option>}
-            {this.modelos.map((_modelo) => (
-              <option key={_modelo} value={_modelo}>{_modelo}</option>
+            {marca?.modelos.map((_modelo) => (
+              <option key={_modelo.nombre} value={_modelo.nombre}>{_modelo.nombre}</option>
             ))}
           </select>
 
           <label className=' text-black font-bold' htmlFor="version">Versión:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="version" name="version" value={version} onChange={this.handleVehiculoChange} required disabled={!(avance > 1)}>
+          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="version" name="version" value={version?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 1)}>
             {avance < 3 && <option value="">Seleccionar Version</option>}
-            {this.versiones.map((_version) => (
-              <option key={_version} value={_version}>{_version}</option>
+            {modelo?.versiones.map((_version) => (
+              <option key={_version.nombre} value={_version.nombre}>{_version.nombre}</option>
             ))}
           </select>
 
           <label className=' text-black font-bold' htmlFor="color">Color:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color} onChange={this.handleVehiculoChange} required disabled={!(avance > 2)}>
+          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 2)}>
             {avance < 4 && <option value="">Seleccionar Color</option>}
-            {this.colores.map((_color) => (
-              <option key={_color} value={_color}>{_color}</option>
+            {version?.colores.map((_color) => (
+              <option key={_color.nombre} value={_color.nombre}>{_color.nombre}</option>
             ))}
           </select>
-          <button type="submit">Realizar Reserva</button>
+          <button type="submit" className={avance > 3 ? ' hover:bg-slate-600 ' : ' bg-zinc-400 text-white'} disabled={!(avance > 2)}>Realizar Reserva</button>
         </form>
 
       </>
