@@ -19,6 +19,7 @@ class Vista extends Component {
       modelo: null,
       version: null,
       color: null,
+      vehiculo: null,
       vehiculos: [],
       avance: 0,
     };
@@ -34,7 +35,7 @@ class Vista extends Component {
 
 
   render() {
-    const { marca, modelo, version, color, avance } = this.state;
+    const { marca, modelo, version, color, vehiculo, vehiculos, avance } = this.state;
     console.log(this.state)
     const cliente1 = new Cliente(43710873, 'Martín', 'Kevin', 'ayacucho 685', 'kevmartin2001@gmail.com', 3816791746)
     const reserva1 = new Reserva(cliente1);
@@ -42,7 +43,12 @@ class Vista extends Component {
 
 
 
-    // creacion de instancias de objetos
+    // Creación de instancias de segmentos
+    const Compacto = new Segmento('Compacto', 20000);
+    const Mediano = new Segmento('Mediano', 30000);
+    const Grande = new Segmento('Grande', 50000);
+    const SUV = new Segmento('SUV', 60000);
+
 
 
 
@@ -54,44 +60,44 @@ class Vista extends Component {
     const Gris = new Color('Gris', 5);
     const Verde = new Color('Verde', 10);
 
-    // Creación de instancias de versiones y asignación de colores
-    const SR = new Version('SR');
+    // Creación de instancias de versiones y asignación de segmentos y colores
+    const SR = new Version('SR', Compacto, 30000000);
     SR.agregarColor(Blanco);
     SR.agregarColor(Negro);
 
-    const SRV = new Version('SRV');
+    const SRV = new Version('SRV', Grande, 50000000);
     SRV.agregarColor(Rojo);
     SRV.agregarColor(Negro);
 
-    const SE = new Version('SE');
+    const SE = new Version('SE', Compacto, 30000000);
     SE.agregarColor(Azul);
     SE.agregarColor(Gris);
 
-    const XLE = new Version('XLE');
+    const XLE = new Version('XLE', Compacto, 30000000);
     XLE.agregarColor(Verde);
     XLE.agregarColor(Negro);
 
-    const Freedom = new Version('Freedom');
+    const Freedom = new Version('Freedom', SUV, 70000000);
     Freedom.agregarColor(Blanco);
     Freedom.agregarColor(Rojo);
 
-    const Attractive = new Version('Attractive');
+    const Attractive = new Version('Attractive', SUV, 70000000);
     Attractive.agregarColor(Negro);
     Attractive.agregarColor(Azul);
 
-    const GT = new Version('GT');
+    const GT = new Version('GT', SUV, 70000000);
     GT.agregarColor(Rojo);
     GT.agregarColor(Blanco);
 
-    const S = new Version('S');
+    const S = new Version('S', Grande, 50000000);
     S.agregarColor(Gris);
     S.agregarColor(Verde);
 
-    const ZL1 = new Version('ZL1');
+    const ZL1 = new Version('ZL1', SUV, 70000000);
     ZL1.agregarColor(Negro);
     ZL1.agregarColor(Rojo);
 
-    const LT = new Version('LT');
+    const LT = new Version('LT', Compacto, 30000000);
     LT.agregarColor(Azul);
     LT.agregarColor(Blanco);
 
@@ -166,28 +172,28 @@ class Vista extends Component {
         case "marca":
           updatedState = {
             ...this.state,
-            [name]: reserva1.marcas.find(_marca => _marca.nombre === value),
+            [name]: reserva1.obtenerMarcas().find(_marca => _marca.nombre === value),
             avance: 1,
           };
           break;
         case "modelo":
           updatedState = {
             ...this.state,
-            [name]: marca.modelos.find(_modelo => _modelo.nombre === value),
+            [name]: marca.obtenerModelos().find(_modelo => _modelo.nombre === value),
             avance: 2,
           };
           break;
         case "version":
           updatedState = {
             ...this.state,
-            [name]: modelo.versiones.find(_version => _version.nombre === value),
+            [name]: modelo.obtenerVersiones().find(_version => _version.nombre === value),
             avance: 3,
           };
           break;
         case "color":
           updatedState = {
             ...this.state,
-            [name]: version.colores.find(_color => _color.nombre === value),
+            [name]: version.obtenerColores().find(_color => _color.nombre === value),
             avance: 4,
           };
           break;
@@ -205,25 +211,60 @@ class Vista extends Component {
 
     const handleSubmit = (e) => {
       e.preventDefault();
+      if(color.cantidad > 0){
+      reserva1.seleccionarMarca(marca.getNombre());
+      reserva1.seleccionarModelo(modelo.getNombre());
+      reserva1.seleccionarVersion(version.getNombre());
+      reserva1.seleccionarColor(color.getNombre());
+      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva1.setFechaReserva(
+        new Fecha(
+          new Date().getDate(),
+          new Date().getMonth() + 1,
+          new Date().getFullYear()
+        )
+      )
+      reserva1.setFechaEntrega( // la entrega es en una semana 
+        new Fecha(
+          new Date().getDate() + 7,
+          new Date().getMonth() + 1,
+          new Date().getFullYear()
+        )
+      )
+      reserva1.setPrecioAuto(version.obtenerPrecio());
+      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
 
+      this.setState({
+        ...this.state,
+        vehiculo: reserva1,
+        avance: 5,
+      });
+
+
+      console.log(reserva1)
+
+    }else{
+      alert('No hay stock de este color');
     }
+  }
 
 
 
     return (
       <>
-        <form onSubmit={handleSubmit} className='flex flex-col gap-y-5'>
+        <form onSubmit={handleSubmit} className='bg-white w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8 flex flex-col gap-y-5'>
           <label className=' text-black font-bold ' htmlFor="marca">Marca:</label>
           <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca?.nombre} onChange={handleVehiculoChange} required >
             {avance < 1 && <option value="">Seleccionar Marca</option>}
-            {reserva1.marcas.map((_marca) => (
+            {reserva1.obtenerMarcas().map((_marca) => (
               <option key={_marca.nombre} value={_marca.nombre}>{_marca.nombre}</option>
             ))}
           </select>
           <label className=' text-black font-bold' htmlFor="modelo">Modelo:</label>
           <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="modelo" name="modelo" value={modelo?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 0)} >
             {avance < 2 && <option value="">Seleccionar Modelo</option>}
-            {marca?.modelos.map((_modelo) => (
+            {marca?.obtenerModelos().map((_modelo) => (
               <option key={_modelo.nombre} value={_modelo.nombre}>{_modelo.nombre}</option>
             ))}
           </select>
@@ -231,7 +272,7 @@ class Vista extends Component {
           <label className=' text-black font-bold' htmlFor="version">Versión:</label>
           <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="version" name="version" value={version?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 1)}>
             {avance < 3 && <option value="">Seleccionar Version</option>}
-            {modelo?.versiones.map((_version) => (
+            {modelo?.obtenerVersiones().map((_version) => (
               <option key={_version.nombre} value={_version.nombre}>{_version.nombre}</option>
             ))}
           </select>
@@ -239,12 +280,28 @@ class Vista extends Component {
           <label className=' text-black font-bold' htmlFor="color">Color:</label>
           <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 2)}>
             {avance < 4 && <option value="">Seleccionar Color</option>}
-            {version?.colores.map((_color) => (
+            {version?.obtenerColores().map((_color) => (
               <option key={_color.nombre} value={_color.nombre}>{_color.nombre}</option>
             ))}
           </select>
-          <button type="submit" className={avance > 3 ? ' hover:bg-slate-600 ' : ' bg-zinc-400 text-white'} disabled={!(avance > 2)}>Realizar Reserva</button>
+          <button type="submit" className={avance > 3 ? ' hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 text-white'} disabled={!(avance > 2)}>Siguiente</button>
         </form>
+
+        {
+          avance > 4 && (
+            <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8'>
+              <p><span className='font-bold'>Marca: </span>{vehiculo?.getMarcaSeleccionada()}</p>
+              <p><span className='font-bold'>Modelo: </span>{vehiculo?.getModeloSeleccionado()}</p>
+              <p><span className='font-bold'>Versión: </span>{vehiculo?.getVersionSeleccionada()}</p>
+              <p><span className='font-bold'>Color: </span>{vehiculo?.getColorSeleccionado()}</p>
+              <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva()}</p>
+              <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega()}</p>
+              <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
+              <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
+              <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
+            </div>
+          )
+        }
 
       </>
     );
