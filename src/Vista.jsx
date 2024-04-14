@@ -211,44 +211,56 @@ class Vista extends Component {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      if(color.cantidad > 0){
-      reserva1.seleccionarMarca(marca.getNombre());
-      reserva1.seleccionarModelo(modelo.getNombre());
-      reserva1.seleccionarVersion(version.getNombre());
-      reserva1.seleccionarColor(color.getNombre());
-      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-      reserva1.setFechaReserva(
-        new Fecha(
-          new Date().getDate(),
-          new Date().getMonth() + 1,
-          new Date().getFullYear()
+      if (color.cantidad > 0) {
+        reserva1.seleccionarMarca(marca.getNombre());
+        reserva1.seleccionarModelo(modelo.getNombre());
+        reserva1.seleccionarVersion(version.getNombre());
+        reserva1.seleccionarColor(color.getNombre());
+        reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+        reserva1.setFechaReserva(
+          new Fecha(
+            new Date().getDate(),
+            new Date().getMonth() + 1,
+            new Date().getFullYear()
+          )
         )
-      )
-      reserva1.setFechaEntrega( // la entrega es en una semana 
-        new Fecha(
-          new Date().getDate() + 7,
-          new Date().getMonth() + 1,
-          new Date().getFullYear()
+        reserva1.setFechaEntrega( // la entrega es en una semana 
+          new Fecha(
+            new Date().getDate() + 7,
+            new Date().getMonth() + 1,
+            new Date().getFullYear()
+          )
         )
-      )
-      reserva1.setPrecioAuto(version.obtenerPrecio());
-      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-      reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
+        reserva1.setPrecioAuto(version.obtenerPrecio());
+        reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+        reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
 
+        this.setState({
+          ...this.state,
+          vehiculo: reserva1,
+          avance: 5,
+        });
+
+
+        console.log(reserva1)
+
+      } else {
+        alert('No hay stock de este color');
+      }
+    }
+
+    const handleAceptar = () => {
       this.setState({
         ...this.state,
-        vehiculo: reserva1,
-        avance: 5,
+        vehiculos: [vehiculo, ...vehiculos ],
+        avance: 0,
+        marca: null,
+        modelo: null,
+        version: null,
+        color: null,
+        vehiculo: null,
       });
-
-
-      console.log(reserva1)
-
-    }else{
-      alert('No hay stock de este color');
     }
-  }
-
 
 
     return (
@@ -290,6 +302,7 @@ class Vista extends Component {
         {
           avance > 4 && (
             <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8'>
+              <h2 className=' text-3xl font-bold my-2'>Información de Reserva</h2>
               <p><span className='font-bold'>Marca: </span>{vehiculo?.getMarcaSeleccionada()}</p>
               <p><span className='font-bold'>Modelo: </span>{vehiculo?.getModeloSeleccionado()}</p>
               <p><span className='font-bold'>Versión: </span>{vehiculo?.getVersionSeleccionada()}</p>
@@ -299,8 +312,29 @@ class Vista extends Component {
               <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
               <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
               <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
+              <button className='hover:bg-slate-600 hover:border-slate-600 text-white my-2' onClick={handleAceptar} >Reservar Vehiculo</button>
+
             </div>
           )
+        }
+
+        {
+          vehiculos.map((vehicle) => {
+            return (
+              <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8'>
+                <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
+                <p><span className='font-bold'>Marca: </span>{vehicle?.getMarcaSeleccionada()}</p>
+                <p><span className='font-bold'>Modelo: </span>{vehicle?.getModeloSeleccionado()}</p>
+                <p><span className='font-bold'>Versión: </span>{vehicle?.getVersionSeleccionada()}</p>
+                <p><span className='font-bold'>Color: </span>{vehicle?.getColorSeleccionado()}</p>
+                <p><span className='font-bold'>Fecha de Reserva: </span>{vehicle?.getFechaReserva()}</p>
+                <p><span className='font-bold'>Fecha de Entrega: </span>{vehicle?.getFechaEntrega()}</p>
+                <p><span className='font-bold'>Precio del auto: </span>{vehicle?.getPrecioAuto().toLocaleString('de-DE')}</p>
+                <p><span className='font-bold'>Precio del flete: </span>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</p>
+                <p><span className='font-bold'>Precio final: </span>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</p>
+              </div>
+            );
+          })
         }
 
       </>
