@@ -1,12 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 
+select {
+  -webkit-appearance: none; /* Esto elimina el estilo predeterminado de Safari */
+  appearance: none;
+  background-color: #fff; /* Cambia esto a tu color de fondo deseado */
+  color: #000; /* Cambia esto a tu color de texto deseado */
+  border: 1px solid #000; /* Cambia esto a tu color de borde deseado */
+  padding: 10px; /* Ajusta el padding como desees */
+}
 
+/* Esto es para el icono de flecha que aparece en el select de Safari */
+select::-ms-expand {
+  display: none;
+}
+select:after {
+  content: "▼";
+  position: absolute;
+  right: 10px;
+}
 
-
-:root {
+/* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -78,4 +94,4 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

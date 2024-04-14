@@ -6,7 +6,8 @@ import './styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    {/* <div className='bg-white w-1/2 mx-auto mt-28 rounded-xl p-12'> */}
+    <div className='bg-[#242424] m-0 flex flex-col min-h-[100vh] min-w-[320px]'>
       <Vista/>
+    </div>
   </React.StrictMode>,
 )

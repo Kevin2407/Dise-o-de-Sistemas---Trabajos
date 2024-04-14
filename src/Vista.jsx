@@ -296,7 +296,7 @@ class Vista extends Component {
               <option key={_color.nombre} value={_color.nombre}>{_color.nombre}</option>
             ))}
           </select>
-          <button type="submit" className={avance > 3 ? ' hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 text-white'} disabled={!(avance > 2)}>Siguiente</button>
+          <button type="submit" className={'py-3 rounded-lg text-white' + (avance > 3 ? ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 ')} disabled={!(avance > 2)}>Siguiente</button>
         </form>
 
         {
