@@ -312,7 +312,7 @@ class Vista extends Component {
               <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
               <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
               <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
-              <button className='hover:bg-slate-600 hover:border-slate-600 text-white my-2' onClick={handleAceptar} >Reservar Vehiculo</button>
+              <button className=' bg-slate-950 py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' onClick={handleAceptar} >Reservar Vehiculo</button>
 
             </div>
           )
