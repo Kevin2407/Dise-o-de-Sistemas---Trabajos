@@ -26,14 +26,6 @@ class Vista extends Component {
   }
 
 
-
-  marcas = ['Toyota', 'Ford', 'Chevrolet']; // Ejemplo de marcas de vehículos
-  modelos = ['Corolla', 'Focus', 'Cruze']; // Ejemplo de modelos de vehículos
-  versiones = ['SE', 'XLE', 'LT']; // Ejemplo de versiones de vehículos
-  colores = ['Blanco', 'Negro', 'Rojo']; // Ejemplo de colores de vehículos
-
-
-
   render() {
     const { marca, modelo, version, color, vehiculo, vehiculos, avance } = this.state;
     console.log(this.state)
