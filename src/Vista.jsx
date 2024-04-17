@@ -45,54 +45,53 @@ class Vista extends Component {
 
 
     // Creación de instancias de colores
-    const Blanco = new Color('Blanco', 3);
-    const Negro = new Color('Negro', 2);
-    const Rojo = new Color('Rojo', 0);
-    const Azul = new Color('Azul', 2);
-    const Gris = new Color('Gris', 5);
-    const Verde = new Color('Verde', 10);
+    const Blanco = new Color('Blanco');
+    const Negro = new Color('Negro');
+    const Rojo = new Color('Rojo');
+    const Azul = new Color('Azul');
+    const Gris = new Color('Gris');
+    const Verde = new Color('Verde');
 
     // Creación de instancias de versiones y asignación de segmentos y colores
     const SR = new Version('SR', Compacto, 30000000);
-    SR.agregarColor(Blanco);
-    SR.agregarColor(Negro);
+    SR.agregarColor(Blanco, 1);
+    SR.agregarColor(Negro,2);
 
     const SRV = new Version('SRV', Grande, 50000000);
-    SRV.agregarColor(Rojo);
-    SRV.agregarColor(Negro);
+    SRV.agregarColor(Rojo,5);
+    SRV.agregarColor(Negro,3);
 
     const SE = new Version('SE', Compacto, 30000000);
-    SE.agregarColor(Azul);
-    SE.agregarColor(Gris);
+    SE.agregarColor(Azul,0);
+    SE.agregarColor(Gris,4);
 
     const XLE = new Version('XLE', Compacto, 30000000);
-    XLE.agregarColor(Verde);
-    XLE.agregarColor(Negro);
+    XLE.agregarColor(Verde,0);
+    XLE.agregarColor(Negro,0);
 
     const Freedom = new Version('Freedom', SUV, 70000000);
-    Freedom.agregarColor(Blanco);
-    Freedom.agregarColor(Rojo);
+    Freedom.agregarColor(Blanco,3);
+    Freedom.agregarColor(Rojo,2);
 
     const Attractive = new Version('Attractive', SUV, 70000000);
-    Attractive.agregarColor(Negro);
-    Attractive.agregarColor(Azul);
+    Attractive.agregarColor(Negro,0);
+    Attractive.agregarColor(Azul,8);
 
     const GT = new Version('GT', SUV, 70000000);
-    GT.agregarColor(Rojo);
-    GT.agregarColor(Blanco);
+    GT.agregarColor(Rojo,6);
+    GT.agregarColor(Blanco,3);
 
     const S = new Version('S', Grande, 50000000);
-    S.agregarColor(Gris);
-    S.agregarColor(Verde);
+    S.agregarColor(Gris,1);
+    S.agregarColor(Verde,0);
 
     const ZL1 = new Version('ZL1', SUV, 70000000);
-    ZL1.agregarColor(Negro);
-    ZL1.agregarColor(Rojo);
+    ZL1.agregarColor(Negro,8);
+    ZL1.agregarColor(Rojo,5);
 
     const LT = new Version('LT', Compacto, 30000000);
-    LT.agregarColor(Azul);
-    LT.agregarColor(Blanco);
-
+    LT.agregarColor(Azul,3);
+    LT.agregarColor(Blanco,0);
 
 
     //modelos
@@ -148,7 +147,7 @@ class Vista extends Component {
     reserva1.agregarMarca(Chevrolet);
 
 
-
+console.log(Fiat)
 
 
 
@@ -185,7 +184,7 @@ class Vista extends Component {
         case "color":
           updatedState = {
             ...this.state,
-            [name]: version.obtenerColores().find(_color => _color.nombre === value),
+            [name]: version.obtenerColores().find(_color => _color.color.nombre === value).color,
             avance: 4,
           };
           break;
@@ -203,7 +202,10 @@ class Vista extends Component {
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      if (color.cantidad > 0) {
+      const _cant =  version.colores.find(col => col.color === color).cant;
+      console.log(color)
+      console.log(version.colores.find( col => col.color === color).cant)
+      if (_cant > 0) {
         reserva1.seleccionarMarca(marca.getNombre());
         reserva1.seleccionarModelo(modelo.getNombre());
         reserva1.seleccionarVersion(version.getNombre());
@@ -237,7 +239,7 @@ class Vista extends Component {
         console.log(reserva1)
 
       } else {
-        alert('No hay stock de este color');
+        alert('No capo, no hay stock de este color');
       }
     }
 
@@ -285,7 +287,7 @@ class Vista extends Component {
           <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 2)}>
             {avance < 4 && <option value="">Seleccionar Color</option>}
             {version?.obtenerColores().map((_color) => (
-              <option key={_color.nombre} value={_color.nombre}>{_color.nombre}</option>
+              <option key={_color.color.nombre} value={_color.color.nombre}>{_color.color.nombre}</option>
             ))}
           </select>
           <button type="submit" className={'py-3 rounded-lg text-white' + (avance > 3 ? ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 ')} disabled={!(avance > 2)}>Siguiente</button>

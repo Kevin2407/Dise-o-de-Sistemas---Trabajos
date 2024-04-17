@@ -38,9 +38,9 @@ class Cliente extends Persona {
 
 
 class Color {
-  constructor(nombre, cantidad) {
+  constructor(nombre) {
     this.nombre = nombre;
-    this.cantidad = cantidad;
+    this.cantidad = 0;
   }
 
   getNombre() {
@@ -49,6 +49,10 @@ class Color {
 
   verificarDisponibilidad() {
     return this.cantidad > 0;
+  }
+
+  sumarCantidad(cant){
+    this.cantidad= this.cantidad + cant;
   }
 }
 
@@ -67,7 +71,7 @@ class Segmento {
 }
 
 class Version {
-  constructor(nombre, segmento,precio) {
+  constructor(nombre, segmento, precio) {
     this.nombre = nombre;
     this.colores = [];
     this.segmento = segmento;
@@ -78,8 +82,11 @@ class Version {
     return this.nombre;
   }
 
-  agregarColor(color) {
-    this.colores.push(color);
+  agregarColor(color, cant) {
+    this.colores.push({
+      color: color,
+      cant: cant
+    });
   }
 
   asignarSegmento(segmento) {
