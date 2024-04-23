@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import {
-  Reserva,
-  Cliente,
-  Fecha,
-  Marca,
-  Modelo,
-  Version,
-  Color,
-  Segmento
-} from './model.js'
+import Reserva from './model/Reserva.jsx';
+import Cliente from './model/Cliente.jsx';
+import Fecha from './model/Fecha.jsx';
+import Marca from './model/Marca.jsx';
+import Modelo from './model/Modelo.jsx';
+import Version from './model/Version.jsx';
+import Color from './model/Color.jsx';
+import Segmento from './model/Segmento.jsx';
 import AgenciaController from './controllers.js'
 
 class Vista extends Component {
@@ -313,9 +311,9 @@ console.log(Fiat)
         }
 
         {
-          vehiculos.map((vehicle) => {
+          vehiculos.map((vehicle, i) => {
             return (
-              <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8'>
+              <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8' key={i}>
                 <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
                 <p><span className='font-bold'>Marca: </span>{vehicle?.getMarcaSeleccionada()}</p>
                 <p><span className='font-bold'>Modelo: </span>{vehicle?.getModeloSeleccionado()}</p>
