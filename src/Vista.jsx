@@ -53,43 +53,43 @@ class Vista extends Component {
     // Creación de instancias de versiones y asignación de segmentos y colores
     const SR = new Version('SR', Compacto, 30000000);
     SR.agregarColor(Blanco, 1);
-    SR.agregarColor(Negro,2);
+    SR.agregarColor(Negro, 2);
 
     const SRV = new Version('SRV', Grande, 50000000);
-    SRV.agregarColor(Rojo,5);
-    SRV.agregarColor(Negro,3);
+    SRV.agregarColor(Rojo, 5);
+    SRV.agregarColor(Negro, 3);
 
     const SE = new Version('SE', Compacto, 30000000);
-    SE.agregarColor(Azul,0);
-    SE.agregarColor(Gris,4);
+    SE.agregarColor(Azul, 0);
+    SE.agregarColor(Gris, 4);
 
     const XLE = new Version('XLE', Compacto, 30000000);
-    XLE.agregarColor(Verde,0);
-    XLE.agregarColor(Negro,0);
+    XLE.agregarColor(Verde, 0);
+    XLE.agregarColor(Negro, 0);
 
     const Freedom = new Version('Freedom', SUV, 70000000);
-    Freedom.agregarColor(Blanco,3);
-    Freedom.agregarColor(Rojo,2);
+    Freedom.agregarColor(Blanco, 3);
+    Freedom.agregarColor(Rojo, 2);
 
     const Attractive = new Version('Attractive', SUV, 70000000);
-    Attractive.agregarColor(Negro,0);
-    Attractive.agregarColor(Azul,8);
+    Attractive.agregarColor(Negro, 0);
+    Attractive.agregarColor(Azul, 8);
 
     const GT = new Version('GT', SUV, 70000000);
-    GT.agregarColor(Rojo,6);
-    GT.agregarColor(Blanco,3);
+    GT.agregarColor(Rojo, 6);
+    GT.agregarColor(Blanco, 3);
 
     const S = new Version('S', Grande, 50000000);
-    S.agregarColor(Gris,1);
-    S.agregarColor(Verde,0);
+    S.agregarColor(Gris, 1);
+    S.agregarColor(Verde, 0);
 
     const ZL1 = new Version('ZL1', SUV, 70000000);
-    ZL1.agregarColor(Negro,8);
-    ZL1.agregarColor(Rojo,5);
+    ZL1.agregarColor(Negro, 8);
+    ZL1.agregarColor(Rojo, 5);
 
     const LT = new Version('LT', Compacto, 30000000);
-    LT.agregarColor(Azul,3);
-    LT.agregarColor(Blanco,0);
+    LT.agregarColor(Azul, 3);
+    LT.agregarColor(Blanco, 0);
 
 
     //modelos
@@ -145,7 +145,7 @@ class Vista extends Component {
     reserva1.agregarMarca(Chevrolet);
 
 
-console.log(Fiat)
+    console.log(Fiat)
 
 
 
@@ -200,9 +200,9 @@ console.log(Fiat)
 
     const handleSubmit = (e) => {
       e.preventDefault();
-      const _cant =  version.colores.find(col => col.color === color).cant;
+      const _cant = version.colores.find(col => col.color === color).cant;
       console.log(color)
-      console.log(version.colores.find( col => col.color === color).cant)
+      console.log(version.colores.find(col => col.color === color).cant)
       if (_cant > 0) {
         reserva1.seleccionarMarca(marca.getNombre());
         reserva1.seleccionarModelo(modelo.getNombre());
@@ -244,7 +244,7 @@ console.log(Fiat)
     const handleAceptar = () => {
       this.setState({
         ...this.state,
-        vehiculos: [vehiculo, ...vehiculos ],
+        vehiculos: [vehiculo, ...vehiculos],
         avance: 0,
         marca: null,
         modelo: null,
@@ -254,6 +254,7 @@ console.log(Fiat)
       });
     }
 
+    console.log(JSON.stringify(vehiculos))
 
     return (
       <>
@@ -291,43 +292,66 @@ console.log(Fiat)
           <button type="submit" className={'py-3 rounded-lg text-white' + (avance > 3 ? ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 ')} disabled={!(avance > 2)}>Siguiente</button>
         </form>
 
-        {
-          avance > 4 && (
-            <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8'>
-              <h2 className=' text-3xl font-bold my-2'>Información de Reserva</h2>
-              <p><span className='font-bold'>Marca: </span>{vehiculo?.getMarcaSeleccionada()}</p>
-              <p><span className='font-bold'>Modelo: </span>{vehiculo?.getModeloSeleccionado()}</p>
-              <p><span className='font-bold'>Versión: </span>{vehiculo?.getVersionSeleccionada()}</p>
-              <p><span className='font-bold'>Color: </span>{vehiculo?.getColorSeleccionado()}</p>
-              <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva()}</p>
-              <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega()}</p>
-              <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
-              <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
-              <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
-              <button className=' bg-slate-950 py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' onClick={handleAceptar} >Reservar Vehiculo</button>
+        <div className='overflow-x-scroll h-[385px] w-3/4 sm:w-1/2 container mx-auto my-16 rounded-xl border border-white py-2 px-8 flex gap-x-5'>
+          {
+            avance > 4 && (
+              <div className='bg-white  text-black min-w-[345px] rounded-xl px-8'>
+                <h2 className=' text-3xl font-bold my-2'>Información de Reserva</h2>
+                <p><span className='font-bold'>Marca: </span>{vehiculo?.getMarcaSeleccionada()}</p>
+                <p><span className='font-bold'>Modelo: </span>{vehiculo?.getModeloSeleccionado()}</p>
+                <p><span className='font-bold'>Versión: </span>{vehiculo?.getVersionSeleccionada()}</p>
+                <p><span className='font-bold'>Color: </span>{vehiculo?.getColorSeleccionado()}</p>
+                <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva()}</p>
+                <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega()}</p>
+                <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
+                <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
+                <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
+                <button className=' bg-slate-950 py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' onClick={handleAceptar} >Reservar Vehiculo</button>
 
-            </div>
-          )
-        }
-
-        {
-          vehiculos.map((vehicle, i) => {
-            return (
-              <div className='bg-white text-black w-3/4 sm:w-1/2 container mx-auto mt-16 rounded-xl p-8' key={i}>
-                <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
-                <p><span className='font-bold'>Marca: </span>{vehicle?.getMarcaSeleccionada()}</p>
-                <p><span className='font-bold'>Modelo: </span>{vehicle?.getModeloSeleccionado()}</p>
-                <p><span className='font-bold'>Versión: </span>{vehicle?.getVersionSeleccionada()}</p>
-                <p><span className='font-bold'>Color: </span>{vehicle?.getColorSeleccionado()}</p>
-                <p><span className='font-bold'>Fecha de Reserva: </span>{vehicle?.getFechaReserva()}</p>
-                <p><span className='font-bold'>Fecha de Entrega: </span>{vehicle?.getFechaEntrega()}</p>
-                <p><span className='font-bold'>Precio del auto: </span>{vehicle?.getPrecioAuto().toLocaleString('de-DE')}</p>
-                <p><span className='font-bold'>Precio del flete: </span>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</p>
-                <p><span className='font-bold'>Precio final: </span>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</p>
               </div>
-            );
-          })
-        }
+            )
+          }
+
+          {
+            vehiculos.map((vehicle, i) => {
+              return (
+                <div className='bg-white text-black min-w-[345px] rounded-xl px-8' key={i}>
+                  <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
+                  <p><span className='font-bold'>Marca: </span>{vehicle?.getMarcaSeleccionada()}</p>
+                  <p><span className='font-bold'>Modelo: </span>{vehicle?.getModeloSeleccionado()}</p>
+                  <p><span className='font-bold'>Versión: </span>{vehicle?.getVersionSeleccionada()}</p>
+                  <p><span className='font-bold'>Color: </span>{vehicle?.getColorSeleccionado()}</p>
+                  <p><span className='font-bold'>Fecha de Reserva: </span>{vehicle?.getFechaReserva()}</p>
+                  <p><span className='font-bold'>Fecha de Entrega: </span>{vehicle?.getFechaEntrega()}</p>
+                  <p><span className='font-bold'>Precio del auto: </span>{vehicle?.getPrecioAuto().toLocaleString('de-DE')}</p>
+                  <p><span className='font-bold'>Precio del flete: </span>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</p>
+                  <p><span className='font-bold'>Precio final: </span>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</p>
+                </div>
+              );
+            })
+          }
+
+          {
+            avance <= 4 && vehiculos.length === 0 && 
+              <h1 className='m-auto text-white font-bold'>No hay reservas</h1>
+              // RESERVAS DE PRUEBA
+            // Array.from({ length: 7 }, (_, i) => (
+            //   <div className='bg-white text-black min-w-[345px] rounded-xl px-8' key={i}>
+            //     <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
+            //     <p><span className='font-bold'>Marca: </span>hola</p>
+            //     <p><span className='font-bold'>Modelo: </span>holaa</p>
+            //     <p><span className='font-bold'>Versión: </span>holaa</p>
+            //     <p><span className='font-bold'>Color: </span>holaa</p>
+            //     <p><span className='font-bold'>Fecha de Reserva: </span></p>
+            //     <p><span className='font-bold'>Fecha de Entrega: </span></p>
+            //     <p><span className='font-bold'>Precio del auto: </span>holaaa</p>
+            //     <p><span className='font-bold'>Precio del flete: </span>holaaa</p>
+            //     <p><span className='font-bold'>Precio final: </span>holaaa</p>
+            //   </div>
+            // ))
+          }
+
+        </div>
 
       </>
     );
