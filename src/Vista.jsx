@@ -153,7 +153,7 @@ class Vista extends Component {
 
 
 
-// CONTROLLERS
+    // CONTROLLERS
     const handleVehiculoChange = (e) => {
       const { name, value } = e.target;
       let updatedState;
@@ -278,7 +278,7 @@ class Vista extends Component {
       this.setState(prevState => ({
         ...prevState,
         vehiculos: prevState.vehiculos.map((v, i) => i === index ? vehiculo : v)
-      })); 
+      }));
     }
 
     const adminReject = (vehiculo, index) => {
@@ -295,108 +295,108 @@ class Vista extends Component {
 
     return (
       <>
-        <div className='w-3/4 sm:w-1/2 mx-auto mt-12'>
-          <span className={' text-xs p-1 text-white rounded-lg cursor-pointer' + ( isAdmin ? ' bg-[#36732c]' : ' bg-[#6e6e6e]')} onClick={() => this.setState({ isAdmin: !isAdmin })}>
+        <div className='w-3/4 lg:w-1/2 mx-auto mt-12 mb-2'>
+          <span className={' text-xs p-1 text-white rounded-lg cursor-pointer' + (isAdmin ? ' bg-[#36732c]' : ' bg-[#6e6e6e]')} onClick={() => this.setState({ isAdmin: !isAdmin })}>
             Admin
           </span>
         </div>
-        <form onSubmit={handleSubmit} className='bg-white w-3/4 sm:w-1/2 container mx-auto mt-2 rounded-xl p-8 flex flex-col gap-y-5'>
-          <label className=' text-black font-bold ' htmlFor="marca">Marca:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca?.nombre} onChange={handleVehiculoChange} required disabled={isAdmin} >
-            {avance < 1 && <option value="">Seleccionar Marca</option>}
-            {reserva1.obtenerMarcas().map((_marca) => (
-              <option key={_marca.nombre} value={_marca.nombre}>{_marca.nombre}</option>
-            ))}
-          </select>
-          <label className=' text-black font-bold' htmlFor="modelo">Modelo:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="modelo" name="modelo" value={modelo?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 0) || isAdmin} >
-            {avance < 2 && <option value="">Seleccionar Modelo</option>}
-            {marca?.obtenerModelos().map((_modelo) => (
-              <option key={_modelo.nombre} value={_modelo.nombre}>{_modelo.nombre}</option>
-            ))}
-          </select>
 
-          <label className=' text-black font-bold' htmlFor="version">Versión:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="version" name="version" value={version?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 1) || isAdmin}>
-            {avance < 3 && <option value="">Seleccionar Version</option>}
-            {modelo?.obtenerVersiones().map((_version) => (
-              <option key={_version.nombre} value={_version.nombre}>{_version.nombre}</option>
-            ))}
-          </select>
 
-          <label className=' text-black font-bold' htmlFor="color">Color:</label>
-          <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 2) || isAdmin}>
-            {avance < 4 && <option value="">Seleccionar Color</option>}
-            {version?.obtenerColores().map((_color) => (
-              <option key={_color.color.nombre} value={_color.color.nombre}>{_color.color.nombre}</option>
-            ))}
-          </select>
-          <button type="submit" className={'py-3 rounded-lg text-white' + (avance > 3 && !isAdmin ? ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 ')} disabled={!(avance > 2) || isAdmin}>Siguiente</button>
-        </form>
+        <div className='flex flex-col sm:flex-row mx-auto gap-2 w-3/4 lg:w-1/2'>
 
-        <div className='overflow-x-scroll h-[385px] w-3/4 sm:w-1/2 container mx-auto my-16 rounded-xl border border-white py-2 px-8 flex gap-x-5'>
-          {
-            avance > 4 && (
-              <div className='bg-white  text-black min-w-[345px] rounded-xl px-8'>
-                <h2 className=' text-3xl font-bold my-2'>Solicitud de Reserva</h2>
-                <p><span className='font-bold'>Marca: </span>{vehiculo?.getMarcaSeleccionada()}</p>
-                <p><span className='font-bold'>Modelo: </span>{vehiculo?.getModeloSeleccionado()}</p>
-                <p><span className='font-bold'>Versión: </span>{vehiculo?.getVersionSeleccionada()}</p>
-                <p><span className='font-bold'>Color: </span>{vehiculo?.getColorSeleccionado()}</p>
-                <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva()}</p>
-                <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega()}</p>
-                <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto().toLocaleString('de-DE')}</p>
-                <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete().toLocaleString('de-DE')}</p>
-                <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal().toLocaleString('de-DE')}</p>
-                <button className=' bg-slate-950 py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' onClick={handleAceptar} >Aceptar</button>
-                <button className=' bg-slate-950 py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' onClick={handleRechazar} >Rechazar</button>
-              </div>
-            )
-          }
+          <form onSubmit={handleSubmit} className='bg-white container rounded-xl p-8 flex flex-col gap-y-5'>
+            <label className=' text-black font-bold ' htmlFor="marca">Marca:</label>
+            <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca?.nombre} onChange={handleVehiculoChange} required disabled={isAdmin} >
+              {avance < 1 && <option value="">Seleccionar Marca</option>}
+              {reserva1.obtenerMarcas().map((_marca) => (
+                <option key={_marca.nombre} value={_marca.nombre}>{_marca.nombre}</option>
+              ))}
+            </select>
+            <label className=' text-black font-bold' htmlFor="modelo">Modelo:</label>
+            <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="modelo" name="modelo" value={modelo?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 0) || isAdmin} >
+              {avance < 2 && <option value="">Seleccionar Modelo</option>}
+              {marca?.obtenerModelos().map((_modelo) => (
+                <option key={_modelo.nombre} value={_modelo.nombre}>{_modelo.nombre}</option>
+              ))}
+            </select>
 
-          {
-            vehiculos.map((vehicle, i) => {
-              return (
-                <div className='bg-white text-black min-w-[345px] rounded-xl px-8 ' key={i}>
-                  <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
-                  <span className={' text-xs p-1 text-white rounded-lg ' + (vehicle?.getStatus() === 'Aceptado' ? ' bg-[#36732c]' : vehicle?.getStatus() === null ? ' bg-[#af4242]' : ' bg-[#6e6e6e]')}>{vehicle?.getStatus() || 'Nulo'}</span>
-                  <p><span className='font-bold'>Marca: </span>{vehicle?.getMarcaSeleccionada()}</p>
-                  <p><span className='font-bold'>Modelo: </span>{vehicle?.getModeloSeleccionado()}</p>
-                  <p><span className='font-bold'>Versión: </span>{vehicle?.getVersionSeleccionada()}</p>
-                  <p><span className='font-bold'>Color: </span>{vehicle?.getColorSeleccionado()}</p>
-                  <p><span className='font-bold'>Fecha de Reserva: </span>{vehicle?.getFechaReserva()}</p>
-                  <p><span className='font-bold'>Fecha de Entrega: </span>{vehicle?.getFechaEntrega()}</p>
-                  <p><span className='font-bold'>Precio del auto: </span>{vehicle?.getPrecioAuto().toLocaleString('de-DE')}</p>
-                  <p><span className='font-bold'>Precio del flete: </span>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</p>
-                  <p><span className='font-bold'>Precio final: </span>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</p>
-                  <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin ? ' hidden' : '')} onClick={() => adminAccept(vehicle,i) } >Aceptar</button>
-                  <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin ? ' hidden' : '')} onClick={() => adminReject(vehicle, i)} >Rechazar</button>
-                </div>
-              );
-            })
-          }
+            <label className=' text-black font-bold' htmlFor="version">Versión:</label>
+            <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="version" name="version" value={version?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 1) || isAdmin}>
+              {avance < 3 && <option value="">Seleccionar Version</option>}
+              {modelo?.obtenerVersiones().map((_version) => (
+                <option key={_version.nombre} value={_version.nombre}>{_version.nombre}</option>
+              ))}
+            </select>
 
-          {
-            avance <= 4 && vehiculos.length === 0 &&
-            <h1 className='m-auto text-white font-bold'>No hay reservas</h1>
-            // RESERVAS DE PRUEBA
-            // Array.from({ length: 7 }, (_, i) => (
-            //   <div className='bg-white text-black min-w-[345px] rounded-xl px-8' key={i}>
-            //     <h2 className=' text-3xl font-bold my-2'>Reserva pendiente</h2>
-            //     <p><span className='font-bold'>Marca: </span>hola</p>
-            //     <p><span className='font-bold'>Modelo: </span>holaa</p>
-            //     <p><span className='font-bold'>Versión: </span>holaa</p>
-            //     <p><span className='font-bold'>Color: </span>holaa</p>
-            //     <p><span className='font-bold'>Fecha de Reserva: </span></p>
-            //     <p><span className='font-bold'>Fecha de Entrega: </span></p>
-            //     <p><span className='font-bold'>Precio del auto: </span>holaaa</p>
-            //     <p><span className='font-bold'>Precio del flete: </span>holaaa</p>
-            //     <p><span className='font-bold'>Precio final: </span>holaaa</p>
-            //   </div>
-            // ))
-          }
+            <label className=' text-black font-bold' htmlFor="color">Color:</label>
+            <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="color" name="color" value={color?.nombre} onChange={handleVehiculoChange} required disabled={!(avance > 2) || isAdmin}>
+              {avance < 4 && <option value="">Seleccionar Color</option>}
+              {version?.obtenerColores().map((_color) => (
+                <option key={_color.color.nombre} value={_color.color.nombre}>{_color.color.nombre}</option>
+              ))}
+            </select>
+            <button type="submit" className={'py-3 rounded-lg text-white' + (avance > 3 && !isAdmin ? ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600 ' : ' bg-zinc-400 ')} disabled={!(avance > 2) || isAdmin}>Siguiente</button>
+          </form>
+
+          <div className='bg-white h-3/4 text-black container rounded-xl px-8'>
+            <h2 className=' text-3xl font-bold my-2'>Solicitud de Reserva</h2>
+            <p><span className='font-bold'>Marca: </span>{marca?.getNombre() || ' - '}</p>
+            <p><span className='font-bold'>Modelo: </span>{modelo?.getNombre() || ' - '}</p>
+            <p><span className='font-bold'>Versión: </span>{version?.getNombre() || ' - '}</p>
+            <p><span className='font-bold'>Color: </span>{color?.getNombre() || ' - '}</p>
+            <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva() || ' - '}</p>
+            <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega() || ' - '}</p>
+            <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto() || ' - '.toLocaleString('de-DE')}</p>
+            <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete() || ' - '.toLocaleString('de-DE')}</p>
+            <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal() || ' - '.toLocaleString('de-DE')}</p>
+            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleAceptar} disabled={avance < 5 || isAdmin} >Aceptar</button>
+            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleRechazar} >Rechazar</button>
+          </div>
 
         </div>
+
+
+
+        <div className='bg-white text-black w-full sm:w-3/4 rounded-xl p-8 overflow-x-scroll mx-auto my-4'>
+          <table className='w-[1200px]'>
+            <thead>
+              <tr>
+                <th className='text-ms text-left'>Status</th>
+                <th className='text-ms text-left'>Marca</th>
+                <th className='text-ms text-left'>Modelo</th>
+                <th className='text-ms text-left'>Versión</th>
+                <th className='text-ms text-left'>Color</th>
+                <th className='text-ms text-left'>Fecha de Reserva</th>
+                <th className='text-ms text-left'>Fecha de Entrega</th>
+                <th className='text-ms text-left'>Precio del auto</th>
+                <th className='text-ms text-left'>Precio del flete</th>
+                <th className='text-ms text-left'>Precio final</th>
+                <th className='text-ms text-left'>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {vehiculos.map((vehicle, i) => (
+                <tr className=' align-top border max-h-[10px] overflow-y-hidden py-0' key={i}>
+                  <td><span className={' text-xs p-1 text-white rounded-lg ' + (vehicle?.getStatus() === 'Aceptado' ? ' bg-[#36732c]' : vehicle?.getStatus() === null ? ' bg-[#af4242]' : ' bg-[#6e6e6e]')}>{vehicle?.getStatus() || 'Nulo'}</span></td>
+                  <td className=' text-sm '>{vehicle?.getMarcaSeleccionada()}</td>
+                  <td className=' text-sm '>{vehicle?.getModeloSeleccionado()}</td>
+                  <td className=' text-sm '>{vehicle?.getVersionSeleccionada()}</td>
+                  <td className=' text-sm '>{vehicle?.getColorSeleccionado()}</td>
+                  <td className=' text-sm '>{vehicle?.getFechaReserva()}</td>
+                  <td className=' text-sm '>{vehicle?.getFechaEntrega()}</td>
+                  <td className=' text-sm '>{vehicle?.getPrecioAuto().toLocaleString('de-DE')}</td>
+                  <td className=' text-sm '>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</td>
+                  <td className=' text-sm '>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</td>
+                  <td className=' text-sm '>
+                    <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin ? ' hidden' : '')} onClick={() => adminAccept(vehicle, i)} >Aceptar</button>
+                    <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin ? ' hidden' : '')} onClick={() => adminReject(vehicle, i)} >Rechazar</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
 
       </>
     );
