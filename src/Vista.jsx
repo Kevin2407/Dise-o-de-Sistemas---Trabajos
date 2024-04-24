@@ -261,8 +261,10 @@ class Vista extends Component {
       });
     }
     const handleRechazar = () => {
+      vehiculo.setStatus('Rechazado');
       this.setState({
         ...this.state,
+        vehiculos: [vehiculo, ...vehiculos],
         avance: 0,
         marca: null,
         modelo: null,
@@ -377,7 +379,7 @@ class Vista extends Component {
             <tbody>
               {vehiculos.map((vehicle, i) => (
                 <tr className=' align-top border max-h-[10px] overflow-y-hidden py-0' key={i}>
-                  <td><span className={' text-xs p-1 text-white rounded-lg ' + (vehicle?.getStatus() === 'Aceptado' ? ' bg-[#36732c]' : vehicle?.getStatus() === null ? ' bg-[#af4242]' : ' bg-[#6e6e6e]')}>{vehicle?.getStatus() || 'Nulo'}</span></td>
+                  <td><span className={' text-xs p-1 text-white rounded-lg ' + (vehicle?.getStatus() === 'Aceptado' ? ' bg-[#36732c]' : vehicle?.getStatus() === null ? ' bg-[#af4242]' : vehicle?.getStatus() === 'Rechazado' ? ' bg-[#0c0c0c]' : ' bg-[#6e6e6e]')}>{vehicle?.getStatus() || 'Nulo'}</span></td>
                   <td className=' text-sm '>{vehicle?.getMarcaSeleccionada()}</td>
                   <td className=' text-sm '>{vehicle?.getModeloSeleccionado()}</td>
                   <td className=' text-sm '>{vehicle?.getVersionSeleccionada()}</td>
@@ -388,8 +390,8 @@ class Vista extends Component {
                   <td className=' text-sm '>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</td>
                   <td className=' text-sm '>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</td>
                   <td className=' text-sm '>
-                    <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin ? ' hidden' : '')} onClick={() => adminAccept(vehicle, i)} >Aceptar</button>
-                    <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin ? ' hidden' : '')} onClick={() => adminReject(vehicle, i)} >Rechazar</button>
+                    <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => adminAccept(vehicle, i)} >Aceptar</button>
+                    <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => adminReject(vehicle, i)} >Rechazar</button>
                   </td>
                 </tr>
               ))}
