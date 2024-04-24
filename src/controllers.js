@@ -1,4 +1,11 @@
-import { Color, Version, Modelo, Marca, Reserva, Segmento } from './model.js';
+import Reserva from './model/Reserva.jsx';
+import Cliente from './model/Cliente.jsx';
+import Fecha from './model/Fecha.jsx';
+import Marca from './model/Marca.jsx';
+import Modelo from './model/Modelo.jsx';
+import Version from './model/Version.jsx';
+import Color from './model/Color.jsx';
+import Segmento from './model/Segmento.jsx';
 
 class Controller {
   constructor(reserva) {
