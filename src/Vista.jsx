@@ -153,7 +153,7 @@ class Vista extends Component {
 
 
 
-
+// CONTROLLERS
     const handleVehiculoChange = (e) => {
       const { name, value } = e.target;
       let updatedState;
@@ -199,6 +199,12 @@ class Vista extends Component {
       this.setState(updatedState);
     };
 
+
+    // tiene que quedar la solicitud de reserva, que no se borre
+    // hacer grilla con info de reservas
+    // grupo11TP01
+
+
     const handleSubmit = (e) => {
       e.preventDefault();
       const _cant = version.colores.find(col => col.color === color).cant;
@@ -238,7 +244,7 @@ class Vista extends Component {
         console.log(reserva1)
 
       } else {
-        alert('No capo, no hay stock de este color');
+        alert('No papu, no hay stock de este color. Buscate otro');
       }
     }
 
@@ -284,7 +290,8 @@ class Vista extends Component {
       }));
     }
 
-    console.log(JSON.stringify(vehiculos))
+
+    // RENDERIZADO
 
     return (
       <>
