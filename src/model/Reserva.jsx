@@ -11,6 +11,7 @@ class Reserva {
     this.precioFlete = null;
     this.precioAuto = null;
     this.precioFinal = null;
+    this.status = 'Pendiente';
   }
 
   getNombre() {
@@ -83,6 +84,13 @@ class Reserva {
   }
   obtenerMarcas() {
     return this.marcas;
+  }
+
+  getStatus() {
+    return this.status;
+  }
+  setStatus(status) {
+    this.status = status;
   }
 
 
