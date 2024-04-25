@@ -12,50 +12,150 @@ class Controller {
     this.reserva = reserva;
   }
 
-  agregarMarca(nombre) {
-    const marca = new Marca(nombre);
-    this.reserva.agregarMarca(marca);
+
+  // Métodos de la clase Controller
+  handleVehiculoChange = (e,selector , state, setState) => {
+    const { name, value } = e.target;
+    let updatedState;
+
+    switch (name) {
+      case "marca":
+        updatedState = {
+          ...state,
+          [name]: selector.obtenerMarcas().find(_marca => _marca.nombre === value),
+          avance: 1,
+        };
+        break;
+      case "modelo":
+        updatedState = {
+          ...state,
+          [name]: selector.obtenerModelos().find(_modelo => _modelo.nombre === value),
+          avance: 2,
+        };
+        break;
+      case "version":
+        updatedState = {
+          ...state,
+          [name]: selector.obtenerVersiones().find(_version => _version.nombre === value),
+          avance: 3,
+        };
+        break;
+      case "color":
+        updatedState = {
+          ...state,
+          [name]: selector.obtenerColores().find(_color => _color.color.nombre === value).color,
+          avance: 4,
+        };
+        break;
+      default:
+        updatedState = {
+          ...state,
+          [name]: value,
+          avance: 0,
+        };
+        break;
+    }
+    setState(updatedState);
+  };
+
+
+  // tiene que quedar la solicitud de reserva, que no se borre
+  // hacer grilla con info de reservas
+  // grupo11TP01
+
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const _cant = version.colores.find(col => col.color === color).cant;
+    console.log(color)
+    console.log(version.colores.find(col => col.color === color).cant)
+    if (_cant > 0) {
+      reserva1.seleccionarMarca(marca.getNombre());
+      reserva1.seleccionarModelo(modelo.getNombre());
+      reserva1.seleccionarVersion(version.getNombre());
+      reserva1.seleccionarColor(color.getNombre());
+      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva1.setFechaReserva(
+        new Fecha(
+          new Date().getDate(),
+          new Date().getMonth() + 1,
+          new Date().getFullYear()
+        )
+      )
+      reserva1.setFechaEntrega( // la entrega es en una semana 
+        new Fecha(
+          new Date().getDate() + 7,
+          new Date().getMonth() + 1,
+          new Date().getFullYear()
+        )
+      )
+      reserva1.setPrecioAuto(version.obtenerPrecio());
+      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
+
+      this.setState({
+        ...this.state,
+        vehiculo: reserva1,
+        avance: 5,
+      });
+
+
+      console.log(reserva1)
+
+    } else {
+      alert('No papu, no hay stock de este color. Buscate otro');
+    }
   }
 
-  seleccionarMarca(nombre) {
-    this.reserva.seleccionarMarca(nombre);
+  handleAceptar = () => {
+    this.setState({
+      ...this.state,
+      vehiculos: [vehiculo, ...vehiculos],
+      avance: 0,
+      marca: null,
+      modelo: null,
+      version: null,
+      color: null,
+      vehiculo: null,
+    });
   }
 
-  agregarModelo(nombreMarca, nombreModelo) {
-    const modelo = new Modelo(nombreModelo);
-    const marca = this.reserva.obtenerMarca(nombreMarca);
-    marca.agregarModelo(modelo);
+  handleRechazar = () => {
+    vehiculo.setStatus('Rechazado');
+    this.setState({
+      ...this.state,
+      vehiculos: [vehiculo, ...vehiculos],
+      avance: 0,
+      marca: null,
+      modelo: null,
+      version: null,
+      color: null,
+      vehiculo: null,
+    });
   }
 
-  seleccionarModelo(nombre) {
-    this.reserva.seleccionarModelo(nombre);
+  adminAccept = (vehiculo, index) => {
+    const v = vehiculo;
+    v.setStatus('Aceptado');
+    this.setState(prevState => ({
+      ...prevState,
+      vehiculos: prevState.vehiculos.map((v, i) => i === index ? vehiculo : v)
+    }));
   }
 
-  agregarVersion(nombreModelo, nombreVersion) {
-    const version = new Version(nombreVersion);
-    const modelo = this.reserva.marcaSeleccionada.obtenerModelo(nombreModelo);
-    modelo.agregarVersion(version);
+  adminReject = (vehiculo, index) => {
+    const v = vehiculo;
+    v.setStatus(null);
+    this.setState(prevState => ({
+      ...prevState,
+      vehiculos: prevState.vehiculos.map((v, i) => i === index ? vehiculo : v)
+    }));
   }
 
-  seleccionarVersion(nombre) {
-    this.reserva.seleccionarVersion(nombre);
-  }
 
-  agregarColor(nombreVersion, nombreColor, cantidad) {
-    const color = new Color(nombreColor, cantidad);
-    const version = this.reserva.modeloSeleccionado.obtenerVersion(nombreVersion);
-    version.agregarColor(color);
-  }
 
-  seleccionarColor(nombre) {
-    this.reserva.seleccionarColor(nombre);
-  }
 
-  asignarSegmento(nombreVersion, nombreSegmento, precioFlete) {
-    const segmento = new Segmento(nombreSegmento, precioFlete);
-    const version = this.reserva.modeloSeleccionado.obtenerVersion(nombreVersion);
-    version.asignarSegmento(segmento);
-  }
+
 }
 
 export default Controller;
