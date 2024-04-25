@@ -348,9 +348,9 @@ class Vista extends Component {
             <p><span className='font-bold'>Color: </span>{color?.getNombre() || ' - '}</p>
             <p><span className='font-bold'>Fecha de Reserva: </span>{vehiculo?.getFechaReserva() || ' - '}</p>
             <p><span className='font-bold'>Fecha de Entrega: </span>{vehiculo?.getFechaEntrega() || ' - '}</p>
-            <p><span className='font-bold'>Precio del auto: </span>{vehiculo?.getPrecioAuto() || ' - '.toLocaleString('de-DE')}</p>
-            <p><span className='font-bold'>Precio del flete: </span>{vehiculo?.getPrecioFlete() || ' - '.toLocaleString('de-DE')}</p>
-            <p><span className='font-bold'>Precio final: </span>{vehiculo?.getPrecioFinal() || ' - '.toLocaleString('de-DE')}</p>
+            <p><span className='font-bold'>Precio del auto: </span>${ vehiculo?.getPrecioAuto().toLocaleString('de-DE') || ' - '}</p>
+            <p><span className='font-bold'>Precio del flete: </span>${ vehiculo?.getPrecioFlete().toLocaleString('de-DE') || ' - '}</p>
+            <p><span className='font-bold'>Precio final: </span>${ vehiculo?.getPrecioFinal().toLocaleString('de-DE') || ' - '}</p>
             <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleAceptar} disabled={avance < 5 || isAdmin} >Aceptar</button>
             <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleRechazar} >Rechazar</button>
           </div>
@@ -378,7 +378,7 @@ class Vista extends Component {
             </thead>
             <tbody>
               {vehiculos.map((vehicle, i) => (
-                <tr className=' align-top border max-h-[10px] overflow-y-hidden py-0' key={i}>
+                <tr className=' align-top border-y max-h-[10px] overflow-y-hidden py-0' key={i}>
                   <td><span className={' text-xs p-1 text-white rounded-lg ' + (vehicle?.getStatus() === 'Aceptado' ? ' bg-[#36732c]' : vehicle?.getStatus() === null ? ' bg-[#af4242]' : vehicle?.getStatus() === 'Rechazado' ? ' bg-[#0c0c0c]' : ' bg-[#6e6e6e]')}>{vehicle?.getStatus() || 'Nulo'}</span></td>
                   <td className=' text-sm '>{vehicle?.getMarcaSeleccionada()}</td>
                   <td className=' text-sm '>{vehicle?.getModeloSeleccionado()}</td>
