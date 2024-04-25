@@ -64,43 +64,44 @@ class Controller {
   // grupo11TP01
 
 
-  handleSubmit = (e) => {
+  handleSubmit = (e,reserva, state, setState) => {
     e.preventDefault();
+    const { marca, modelo, version, color } = state;
     const _cant = version.colores.find(col => col.color === color).cant;
     console.log(color)
     console.log(version.colores.find(col => col.color === color).cant)
     if (_cant > 0) {
-      reserva1.seleccionarMarca(marca.getNombre());
-      reserva1.seleccionarModelo(modelo.getNombre());
-      reserva1.seleccionarVersion(version.getNombre());
-      reserva1.seleccionarColor(color.getNombre());
-      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-      reserva1.setFechaReserva(
+      reserva.seleccionarMarca(marca.getNombre());
+      reserva.seleccionarModelo(modelo.getNombre());
+      reserva.seleccionarVersion(version.getNombre());
+      reserva.seleccionarColor(color.getNombre());
+      reserva.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva.setFechaReserva(
         new Fecha(
           new Date().getDate(),
           new Date().getMonth() + 1,
           new Date().getFullYear()
         )
       )
-      reserva1.setFechaEntrega( // la entrega es en una semana 
+      reserva.setFechaEntrega( // la entrega es en una semana 
         new Fecha(
           new Date().getDate() + 7,
           new Date().getMonth() + 1,
           new Date().getFullYear()
         )
       )
-      reserva1.setPrecioAuto(version.obtenerPrecio());
-      reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-      reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
+      reserva.setPrecioAuto(version.obtenerPrecio());
+      reserva.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
+      reserva.setPrecioFinal((reserva.getPrecioAuto() + reserva.getPrecioFlete()) * 0.02 + (reserva.getPrecioAuto() + reserva.getPrecioFlete()));
 
-      this.setState({
+      setState({
         ...this.state,
-        vehiculo: reserva1,
+        vehiculo: reserva,
         avance: 5,
       });
 
 
-      console.log(reserva1)
+      console.log(reserva)
 
     } else {
       alert('No papu, no hay stock de este color. Buscate otro');

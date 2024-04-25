@@ -162,49 +162,6 @@ class Vista extends Component {
     // grupo11TP01
 
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      const _cant = version.colores.find(col => col.color === color).cant;
-      console.log(color)
-      console.log(version.colores.find(col => col.color === color).cant)
-      if (_cant > 0) {
-        reserva1.seleccionarMarca(marca.getNombre());
-        reserva1.seleccionarModelo(modelo.getNombre());
-        reserva1.seleccionarVersion(version.getNombre());
-        reserva1.seleccionarColor(color.getNombre());
-        reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-        reserva1.setFechaReserva(
-          new Fecha(
-            new Date().getDate(),
-            new Date().getMonth() + 1,
-            new Date().getFullYear()
-          )
-        )
-        reserva1.setFechaEntrega( // la entrega es en una semana 
-          new Fecha(
-            new Date().getDate() + 7,
-            new Date().getMonth() + 1,
-            new Date().getFullYear()
-          )
-        )
-        reserva1.setPrecioAuto(version.obtenerPrecio());
-        reserva1.setPrecioFlete(version.obtenerSegmento().getPrecioFlete());
-        reserva1.setPrecioFinal((reserva1.getPrecioAuto() + reserva1.getPrecioFlete()) * 0.02 + (reserva1.getPrecioAuto() + reserva1.getPrecioFlete()));
-
-        this.setState({
-          ...this.state,
-          vehiculo: reserva1,
-          avance: 5,
-        });
-
-
-        console.log(reserva1)
-
-      } else {
-        alert('No papu, no hay stock de este color. Buscate otro');
-      }
-    }
-
     const handleAceptar = () => {
       this.setState({
         ...this.state,
@@ -263,7 +220,7 @@ class Vista extends Component {
 
         <div className='flex flex-col sm:flex-row mx-auto gap-2 w-3/4 lg:w-1/2'>
 
-          <form onSubmit={handleSubmit} className='bg-white container rounded-xl p-8 flex flex-col gap-y-5'>
+          <form onSubmit={(e) => controller.handleSubmit(e, reserva1, this.state, this.setState.bind(this))} className='bg-white container rounded-xl p-8 flex flex-col gap-y-5'>
             <label className=' text-black font-bold ' htmlFor="marca">Marca:</label>
             <select className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' id="marca" name="marca" value={marca?.nombre} onChange={(e) => controller.handleVehiculoChange(e, reserva1, this.state, this.setState.bind(this))} required disabled={isAdmin} >
               {avance < 1 && <option value="">Seleccionar Marca</option>}
