@@ -98,17 +98,18 @@ class Controller {
   }
 
   handleSolicitud = (state, setState, valor) => {
-    state.vehiculo.setStatus(valor);
-    setState({
-      ...state,
-      vehiculos: [state.vehiculo, ...state.vehiculos],
+    const v = state.vehiculo;
+    v.setStatus(valor);
+    setState(prevState => ({
+      ...prevState,
+      vehiculos: [v , ...prevState.vehiculos],
       avance: 0,
       marca: null,
       modelo: null,
       version: null,
       color: null,
       vehiculo: null,
-    });
+    }));
   }
 
   adminChange = (vehiculo ,setState ,valor ,index) => {
