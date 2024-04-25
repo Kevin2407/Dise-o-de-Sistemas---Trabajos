@@ -27,7 +27,6 @@ class Vista extends Component {
 
   render() {
     const { marca, modelo, version, color, vehiculo, vehiculos, avance, isAdmin } = this.state;
-    console.log(this.state)
     const cliente1 = new Cliente(43710873, 'Martín', 'Kevin', 'ayacucho 685', 'kevmartin2001@gmail.com', 3816791746)
     const reserva1 = new Reserva(cliente1);
     const controller = new AgenciaController(reserva1);
@@ -147,9 +146,6 @@ class Vista extends Component {
     reserva1.agregarMarca(Chevrolet);
 
 
-    console.log(Fiat)
-
-
 
 
 
@@ -265,8 +261,8 @@ class Vista extends Component {
             <p><span className='font-bold'>Precio del auto: </span>${vehiculo?.getPrecioAuto().toLocaleString('de-DE') || ' - '}</p>
             <p><span className='font-bold'>Precio del flete: </span>${vehiculo?.getPrecioFlete().toLocaleString('de-DE') || ' - '}</p>
             <p><span className='font-bold'>Precio final: </span>${vehiculo?.getPrecioFinal().toLocaleString('de-DE') || ' - '}</p>
-            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleAceptar} disabled={avance < 5 || isAdmin} >Aceptar</button>
-            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={handleRechazar} >Rechazar</button>
+            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={(e) => controller.handleSolicitud(this.state, this.setState.bind(this),'Pendiente')} disabled={avance < 5 || isAdmin} >Aceptar</button>
+            <button className={' py-1 px-3 rounded-lg text-white my-2 mr-1' + (avance < 5 || isAdmin ? ' bg-zinc-400' : ' bg-slate-950 hover:bg-slate-600 hover:border-slate-600')} onClick={(e) => controller.handleSolicitud(this.state, this.setState.bind(this),'Rechazado')} >Rechazar</button>
           </div>
 
         </div>
@@ -304,8 +300,8 @@ class Vista extends Component {
                   <td className=' text-sm '>{vehicle?.getPrecioFlete().toLocaleString('de-DE')}</td>
                   <td className=' text-sm '>{vehicle?.getPrecioFinal().toLocaleString('de-DE')}</td>
                   <td className=' text-sm '>
-                    <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => adminAccept(vehicle, i)} >Aceptar</button>
-                    <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => adminReject(vehicle, i)} >Rechazar</button>
+                    <button className={' bg-[#36732c] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2 mr-1' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => controller.adminChange(vehicle, this.setState.bind(this) , 'Aceptado', i)} >Aceptar</button>
+                    <button className={' bg-[#af4242] py-1 px-3 rounded-lg text-white hover:bg-slate-600 hover:border-slate-600 my-2' + (!isAdmin || vehicle?.getStatus() === 'Rechazado' ? ' hidden' : '')} onClick={() => controller.adminChange(vehicle, this.setState.bind(this), null, i)} >Rechazar</button>
                   </td>
                 </tr>
               ))}

@@ -1,11 +1,5 @@
-import Reserva from './model/Reserva.jsx';
-import Cliente from './model/Cliente.jsx';
 import Fecha from './model/Fecha.jsx';
-import Marca from './model/Marca.jsx';
-import Modelo from './model/Modelo.jsx';
-import Version from './model/Version.jsx';
-import Color from './model/Color.jsx';
-import Segmento from './model/Segmento.jsx';
+
 
 class Controller {
   constructor(reserva) {
@@ -68,8 +62,6 @@ class Controller {
     e.preventDefault();
     const { marca, modelo, version, color } = state;
     const _cant = version.colores.find(col => col.color === color).cant;
-    console.log(color)
-    console.log(version.colores.find(col => col.color === color).cant)
     if (_cant > 0) {
       reserva.seleccionarMarca(marca.getNombre());
       reserva.seleccionarModelo(modelo.getNombre());
@@ -95,23 +87,21 @@ class Controller {
       reserva.setPrecioFinal((reserva.getPrecioAuto() + reserva.getPrecioFlete()) * 0.02 + (reserva.getPrecioAuto() + reserva.getPrecioFlete()));
 
       setState({
-        ...this.state,
+        ...state,
         vehiculo: reserva,
         avance: 5,
       });
-
-
-      console.log(reserva)
 
     } else {
       alert('No papu, no hay stock de este color. Buscate otro');
     }
   }
 
-  handleAceptar = () => {
-    this.setState({
-      ...this.state,
-      vehiculos: [vehiculo, ...vehiculos],
+  handleSolicitud = (state, setState, valor) => {
+    state.vehiculo.setStatus(valor);
+    setState({
+      ...state,
+      vehiculos: [state.vehiculo, ...state.vehiculos],
       avance: 0,
       marca: null,
       modelo: null,
@@ -121,41 +111,14 @@ class Controller {
     });
   }
 
-  handleRechazar = () => {
-    vehiculo.setStatus('Rechazado');
-    this.setState({
-      ...this.state,
-      vehiculos: [vehiculo, ...vehiculos],
-      avance: 0,
-      marca: null,
-      modelo: null,
-      version: null,
-      color: null,
-      vehiculo: null,
-    });
-  }
-
-  adminAccept = (vehiculo, index) => {
+  adminChange = (vehiculo ,setState ,valor ,index) => {
     const v = vehiculo;
-    v.setStatus('Aceptado');
-    this.setState(prevState => ({
+    v.setStatus(valor);
+    setState(prevState => ({
       ...prevState,
       vehiculos: prevState.vehiculos.map((v, i) => i === index ? vehiculo : v)
     }));
   }
-
-  adminReject = (vehiculo, index) => {
-    const v = vehiculo;
-    v.setStatus(null);
-    this.setState(prevState => ({
-      ...prevState,
-      vehiculos: prevState.vehiculos.map((v, i) => i === index ? vehiculo : v)
-    }));
-  }
-
-
-
-
 
 }
 
