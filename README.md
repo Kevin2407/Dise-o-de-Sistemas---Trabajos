@@ -36,7 +36,7 @@ Este repositorio contiene el código fuente y la documentación del Trabajo Prá
 1. Clona este repositorio en tu máquina local ejecutando el siguiente comando en tu terminal:
 
   ```
-  git clone https://github.com/grupo11TP01/Sistema-de-Reserva-de-Vehiculos.git](https://github.com/Kevin2407/Dise-o-de-Sistemas---Trabajos.git
+  git clone https://github.com/Kevin2407/Dise-o-de-Sistemas---Trabajos.git
   ```
 
 2. Accede al directorio del proyecto:
