@@ -1,11 +1,9 @@
-import Fecha from './model/Fecha.jsx';
-
+import Fecha from './model/Fecha.js';
 
 class Controller {
   constructor(reserva) {
     this.reserva = reserva;
   }
-
 
   // Métodos de la clase Controller
   handleVehiculoChange = (e,selector , state, setState) => {
@@ -51,12 +49,6 @@ class Controller {
     }
     setState(updatedState);
   };
-
-
-  // tiene que quedar la solicitud de reserva, que no se borre
-  // hacer grilla con info de reservas
-  // grupo11TP01
-
 
   handleSubmit = (e,reserva, state, setState) => {
     e.preventDefault();

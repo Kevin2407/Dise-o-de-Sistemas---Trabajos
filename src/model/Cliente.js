@@ -1,4 +1,4 @@
-import Persona from './Persona';
+import Persona from './Persona.js';
 
 class Cliente extends Persona {
   constructor(dni, apellido, nombre, direccion, email, celular) {

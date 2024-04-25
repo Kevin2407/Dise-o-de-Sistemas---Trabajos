@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import Vista from './Vista.jsx'
 import './styles/index.css'
-import Reserva from './model/Reserva.jsx';
-import Cliente from './model/Cliente.jsx';
-import Marca from './model/Marca.jsx';
-import Modelo from './model/Modelo.jsx';
-import Version from './model/Version.jsx';
-import Color from './model/Color.jsx';
-import Segmento from './model/Segmento.jsx';
+import Reserva from './model/Reserva.js';
+import Cliente from './model/Cliente.js';
+import Marca from './model/Marca.js';
+import Modelo from './model/Modelo.js';
+import Version from './model/Version.js';
+import Color from './model/Color.js';
+import Segmento from './model/Segmento.js';
 import AgenciaController from './controllers.js'
 
 
@@ -17,16 +17,11 @@ const reserva1 = new Reserva(cliente1);
 const controller = new AgenciaController(reserva1);
 controller.handleVehiculoChange = controller.handleVehiculoChange.bind(this);
 
-
-
 // Creación de instancias de segmentos
 const Compacto = new Segmento('Compacto', 20000);
 const Mediano = new Segmento('Mediano', 30000);
 const Grande = new Segmento('Grande', 50000);
 const SUV = new Segmento('SUV', 60000);
-
-
-
 
 // Creación de instancias de colores
 const Blanco = new Color('Blanco');
@@ -77,7 +72,6 @@ const LT = new Version('LT', Compacto, 30000000);
 LT.agregarColor(Azul, 3);
 LT.agregarColor(Blanco, 0);
 
-
 //modelos
 const Hilux = new Modelo('Hilux');
 Hilux.agregarVersion(SR);
@@ -105,7 +99,6 @@ Camaro.agregarVersion(ZL1);
 const Malibu = new Modelo('Malibu');
 Malibu.agregarVersion(LT);
 
-
 //Marcas
 const Toyota = new Marca('Toyota');
 Toyota.agregarModelo(Hilux);
@@ -123,21 +116,18 @@ const Chevrolet = new Marca('Chevrolet');
 Chevrolet.agregarModelo(Camaro);
 Chevrolet.agregarModelo(Malibu);
 
-
 // reserva
 reserva1.agregarMarca(Toyota);
 reserva1.agregarMarca(Fiat);
 reserva1.agregarMarca(Ford);
 reserva1.agregarMarca(Chevrolet);
 
-
-
 const data = {
   reserva1: reserva1,
   controller: controller,
 };
 
-
+// LLAMADO A RENDERIZADO DE VISTA
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <div className='bg-[#242424] m-0 flex flex-col min-h-[100vh] min-w-[320px]'>

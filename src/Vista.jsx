@@ -1,13 +1,4 @@
 import React, { Component } from 'react';
-import Reserva from './model/Reserva.jsx';
-import Cliente from './model/Cliente.jsx';
-import Fecha from './model/Fecha.jsx';
-import Marca from './model/Marca.jsx';
-import Modelo from './model/Modelo.jsx';
-import Version from './model/Version.jsx';
-import Color from './model/Color.jsx';
-import Segmento from './model/Segmento.jsx';
-import AgenciaController from './controllers.js'
 
 class Vista extends Component {
   constructor(props) {
@@ -28,29 +19,14 @@ class Vista extends Component {
   render() {
     const { marca, modelo, version, color, vehiculo, vehiculos, avance, isAdmin } = this.state;
     const {reserva1, controller} = this.props.data;
-
     const reserva = Object.create(
       Object.getPrototypeOf(reserva1),
       Object.getOwnPropertyDescriptors(reserva1)
     );
 
-    console.log(this.state)
 
 
-
-
-    // CONTROLLERS
-
-
-    // tiene que quedar la solicitud de reserva, que no se borre
-    // hacer grilla con info de reservas
-    // grupo11TP01
-
-
-    
-
-    // RENDERIZADO
-
+    // RENDERIZADO DE VISTA
     return (
       <>
         <div className='w-3/4 lg:w-1/2 mx-auto mt-12 mb-2'>
@@ -129,7 +105,7 @@ class Vista extends Component {
                 <th className='text-ms text-left'>Precio del auto</th>
                 <th className='text-ms text-left'>Precio del flete</th>
                 <th className='text-ms text-left'>Precio final</th>
-                <th className='text-ms text-left'>Acciones</th>
+                <th className={'text-ms text-left' + (!isAdmin ? ' hidden' : '')}>Acciones</th>
               </tr>
             </thead>
             <tbody>
